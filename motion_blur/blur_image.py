@@ -153,8 +153,19 @@ if __name__ == '__main__':
                 k1 = randint(0,spx)
                 k2 = randint(0,spx)
                 img_cropped = img.crop((spx+k1,spx+k2,epx+k1,epx+k2))
-                save_filename = raw_filename + '_' + str(i)
-                img_cropped.save(os.path.join(folder_to_rgb, save_filename)+'.TIFF','TIFF')
+				for j in range(4):
+					img_rot = img_cropped
+					if j == 1:
+						img_rot = img_cropped.transpose(PIL.Image.ROTATE_90)
+					elif j == 2:
+						img_rot = img_cropped.transpose(PIL.Image.ROTATE_180)
+					elif j == 3:
+						img_rot = img_cropped.transpose(PIL.Image.ROTATE_270)
+					for k in range(2):
+						if k > 0:
+							img_rot = img_cropped.transpose(PIL.Image.FLIP_TOP_BOTTOM)
+						save_filename = raw_filename + '_' + str(i) + str(j) + str(k)
+						img_rot.save(os.path.join(folder_to_rgb, save_filename)+'.TIFF','TIFF')
         tam_print('TIFF conversion finished')
     else:
         tam_print('TIFF conversion was already finished')
