@@ -6,6 +6,7 @@ from scipy import misc
 from scipy.signal import signaltools
 from generate_PSF import PSF
 from generate_trajectory import Trajectory
+from random import randint
 import sys
 
 #Astropy library to handle Maxim DL FITS file
@@ -131,6 +132,8 @@ if __name__ == '__main__':
     folder_to_rgb = '../images/astro_rgb'
     folder_to_save = '../images/astro_img_blurred'
     params = [0.01, 0.009, 0.008, 0.007, 0.005, 0.003]
+    num_per_img = 10
+
     #NEF to PIL image
     if len(os.listdir(folder_to_rgb)) == 0:
 
@@ -146,8 +149,12 @@ if __name__ == '__main__':
             cut_size = min(sq_size, img.size[0], img.size[1])
             spx = cut_size // 3
             epx = spx * 2
-            img_cropped = img.crop((spx,spx,epx,epx))
-            img_cropped.save(os.path.join(folder_to_rgb, raw_filename)+'.TIFF','TIFF')
+            for i in range(num_per_img):
+                k1 = randint(0,spx)
+                k2 = randint(0,spx)
+                img_cropped = img.crop((spx+k1,spx+k2,epx+k1,epx+k2))
+                save_filename = raw_filename + '_' + str(i)
+                img_cropped.save(os.path.join(folder_to_rgb, save_filename)+'.TIFF','TIFF')
         tam_print('TIFF conversion finished')
     else:
         tam_print('TIFF conversion was already finished')
