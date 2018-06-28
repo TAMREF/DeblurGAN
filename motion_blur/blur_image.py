@@ -127,9 +127,9 @@ class BlurImage(object):
 
 
 if __name__ == '__main__':
-    folder = 'C:/Users/slugg/Desktop/2018/2018 gthesis/astro_data/Lights'
-    folder_to_rgb = 'C:/Users/slugg/Desktop/2018/2018 gthesis/astro_rgb'
-    folder_to_save = 'C:/Users/slugg/Desktop/2018/2018 gthesis/astro_img_blurred'
+    folder = '../images/astro_data/Lights'
+    folder_to_rgb = '../images/astro_rgb'
+    folder_to_save = '../images/astro_img_blurred'
     params = [0.01, 0.009, 0.008, 0.007, 0.005, 0.003]
     #NEF to PIL image
     if len(os.listdir(folder_to_rgb)) == 0:
