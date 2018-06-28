@@ -156,14 +156,14 @@ if __name__ == '__main__':
 				for j in range(4):
 					img_rot = img_cropped
 					if j == 1:
-						img_rot = img_cropped.transpose(PIL.Image.ROTATE_90)
+						img_rot = img_cropped.transpose(Image.ROTATE_90)
 					elif j == 2:
-						img_rot = img_cropped.transpose(PIL.Image.ROTATE_180)
+						img_rot = img_cropped.transpose(Image.ROTATE_180)
 					elif j == 3:
-						img_rot = img_cropped.transpose(PIL.Image.ROTATE_270)
+						img_rot = img_cropped.transpose(Image.ROTATE_270)
 					for k in range(2):
 						if k > 0:
-							img_rot = img_cropped.transpose(PIL.Image.FLIP_TOP_BOTTOM)
+							img_rot = img_rot.transpose(Image.FLIP_TOP_BOTTOM)
 						save_filename = raw_filename + '_' + str(i) + str(j) + str(k)
 						img_rot.save(os.path.join(folder_to_rgb, save_filename)+'.TIFF','TIFF')
 		tam_print('TIFF conversion finished')
