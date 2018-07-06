@@ -9,6 +9,7 @@ from scipy.signal import signaltools
 from generate_PSF import PSF
 from generate_trajectory import Trajectory
 from random import randint
+from PILutils import PIL2array
 import sys
 
 #Astropy library to handle Maxim DL FITS file
@@ -90,7 +91,7 @@ class BlurImage(object):
 			blured[:, :, 1] = np.array(signaltools.fftconvolve(blured[:, :, 1], tmp, mode='same'))
 			blured[:, :, 2] = np.array(signaltools.fftconvolve(blured[:, :, 2], tmp, mode='same'))
 			blured = cv2.normalize(blured, blured, alpha=0, beta=1, norm_type=cv2.NORM_MINMAX, dtype=cv2.CV_32F)
-			blured = cv2.cvtColor(blured, cv2.COLOR_RGB2BGR)
+			#blured = cv2.cvtColor(blured, cv2.COLOR_RGB2BGR)
 			tam_print('Blurred size : ', blured.shape)
 			result.append(np.abs(blured))
 		self.result = result
@@ -116,7 +117,7 @@ class BlurImage(object):
 				if self.path_to_save is None:
 					raise Exception('Please create Trajectory instance with path_to_save')
 				path_string = os.path.join(self.path_to_save, self.image_path.split('\\')[-1])
-				cv2.imwrite(path_string, self.result[0] * 65535)
+				cv2.imwrite(path_string, self.result[0])
 				plt.show()
 			elif save:
 				#tam_print('PATH TO SAVE : ', self.path_to_save, 'IMAGE PATH : ', self.image_path)
@@ -128,14 +129,36 @@ class BlurImage(object):
 			elif show:
 				plt.show()
 
+def merge_flat(image_path,result_path):
+	if len(os.listdir(result_path)) > 0:
+		img = Image.open(os.path.join(result_path, 'MasterBias800_03_09_2013.tif'))
+		arr_flat = np.array(img.getdata(), np.uint8).reshape(img.size[1], img.size[0])
+		return np.tile(arr_flat,(3,1,1)).reshape(2868,4320,3)
+	tam_print('merging flats')
+	L = []
+	for filename in os.listdir(image_path):
+		if not '.NEF' in filename: continue
+		raw_filename = filename.split('.')[0]
+		tam_print(raw_filename)
+		raw = rawpy.imread(os.path.join(image_path, filename))
+		rgb = raw.postprocess(user_black = 0)
+		L.append(rgb)
+	mean_flat = np.mean(L,axis=0)
+	tam_print(mean_flat.shape)
+	tam_print('flat merging process finished')
+	img_flat = Image.fromarray(mean_flat.astype(np.uint8))
+	img_flat.save(os.path.join(result_path, 'flat_result.JPEG'),'JPEG')
+	return mean_flat
 
 if __name__ == '__main__':
 	folder = '../images/astro_data/Lights'
 	folder_to_rgb = '../images/astro_rgb'
 	folder_to_save = '../images/astro_img_blurred'
+	folder_flat = '../images/astro_data/Flats'
+	folder_flat_result = '../images/astro_data/Flat_results'
 	params = [0.01, 0.009, 0.008, 0.007, 0.005, 0.003]
 	num_per_img = 10
-
+	arr_flat = merge_flat(folder_flat, folder_flat_result)
 	#NEF to PIL image
 	if len(os.listdir(folder_to_rgb)) == 0:
 
@@ -146,8 +169,13 @@ if __name__ == '__main__':
 			raw_filename = filename.split('.')[0]
 			tam_print(raw_filename)
 			raw = rawpy.imread(os.path.join(folder, filename))
-			rgb = raw.postprocess()
-			img = Image.fromarray(rgb)  # Pillow image
+			rgb = raw.postprocess(user_black = 0)
+			print(rgb.dtype)
+
+			#rgb_calib = np.divide(rgb * 256.,  arr_flat)
+			rgb_calib = rgb - arr_flat
+
+			img = Image.fromarray(rgb_calib.astype(np.uint8))  # Pillow image
 			cut_size = min(sq_size, img.size[0], img.size[1])
 			spx = cut_size // 3
 			epx = spx * 2
@@ -167,7 +195,7 @@ if __name__ == '__main__':
 						if k > 0:
 							img_rot = img_rot.transpose(Image.FLIP_TOP_BOTTOM)
 						save_filename = raw_filename + '_' + str(i) + str(j) + str(k)
-						img_rot.save(os.path.join(folder_to_rgb, save_filename)+'.TIFF','TIFF')
+						img_rot.save(os.path.join(folder_to_rgb, save_filename)+'.JPEG','JPEG')
 		tam_print('TIFF conversion finished')
 	else:
 		tam_print('TIFF conversion was already finished')

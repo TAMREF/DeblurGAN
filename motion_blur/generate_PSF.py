@@ -20,6 +20,7 @@ class PSF(object):
             self.fraction = fraction
         self.path_to_save = path_to_save
         self.PSFnumber = len(self.fraction)
+
         self.iters = len(self.trajectory)
         self.PSFs = []
 
@@ -93,5 +94,5 @@ class PSF(object):
 
 
 if __name__ == '__main__':
-    psf = PSF(canvas=128, path_to_save='/Users/mykolam/PycharmProjects/University/RandomMotionBlur/psf.png')
+    psf = PSF(canvas=128, path_to_save='./PSF')
     psf.fit(show=True, save=True)

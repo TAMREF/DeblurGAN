@@ -118,5 +118,5 @@ class Trajectory(object):
 
 if __name__ == '__main__':
     trajectory = Trajectory(expl=0.005,
-                            path_to_save='/Users/mykolam/PycharmProjects/University/RandomMotionBlur/main.png')
+                            path_to_save='./Traj')
     trajectory.fit(True, False)
