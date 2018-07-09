@@ -18,9 +18,9 @@ import sys
 import rawpy
 from PIL import Image
 
-DEBUG = True
+DEBUG = False
 GRAYSCALE_TRS = 1.5
-tam_print = print if DEBUG else None
+#tam_print = print if DEBUG else None
 
 class BlurImage(object):
 
@@ -35,7 +35,7 @@ class BlurImage(object):
         if os.path.isfile(image_path):
             self.image_path = image_path
             self.original = misc.imread(self.image_path)
-            tam_print('ORIGINAL IMAGE : ',self.original.shape)
+            #tam_print('ORIGINAL IMAGE : ',self.original.shape)
             self.shape = self.original.shape
             if len(self.shape) < 3:
                 print(self.shape)
@@ -70,7 +70,7 @@ class BlurImage(object):
         if len(psf) > 1:
             for p in psf:
                 tmp = np.pad(p, delta // 2, 'constant')
-                tam_print(tmp.size)
+                #tam_print(tmp.size)
                 cv2.normalize(tmp, tmp, alpha=0, beta=1, norm_type=cv2.NORM_MINMAX, dtype=cv2.CV_32F)
                 # blured = np.zeros(self.shape)
                 blured = cv2.normalize(self.original, self.original, alpha=0, beta=1, norm_type=cv2.NORM_MINMAX,
@@ -84,7 +84,7 @@ class BlurImage(object):
         else:
             psf = psf[0]
             tmp = np.pad(psf, delta // 2, 'constant')
-            tam_print(tmp.size)
+            #tam_print(tmp.size)
             cv2.normalize(tmp, tmp, alpha=0, beta=1, norm_type=cv2.NORM_L1, dtype=cv2.CV_32F)
             blured = cv2.normalize(self.original, self.original, alpha=0, beta=1, norm_type=cv2.NORM_MINMAX,
                                    dtype=cv2.CV_32F)
@@ -93,14 +93,14 @@ class BlurImage(object):
             blured[:, :, 2] = np.array(signaltools.fftconvolve(blured[:, :, 2], tmp, mode='same'))
             blured = cv2.normalize(blured, blured, alpha=0, beta=1, norm_type=cv2.NORM_MINMAX, dtype=cv2.CV_32F)
             #blured = cv2.cvtColor(blured, cv2.COLOR_RGB2BGR)
-            tam_print('Blurred size : ', blured.shape)
+            #tam_print('Blurred size : ', blured.shape)
             result.append(np.abs(blured))
         self.result = result
         if show or save:
             self.__plot_canvas(show, save)
 
     def __plot_canvas(self, show, save):
-        tam_print('Got a call!')
+        #tam_print('Got a call!')
         if len(self.result) == 0:
             raise Exception('Please run blur_image() method first.')
         else:
@@ -117,14 +117,14 @@ class BlurImage(object):
             if show and save:
                 if self.path_to_save is None:
                     raise Exception('Please create Trajectory instance with path_to_save')
-                path_string = os.path.join(self.path_to_save, self.image_path.split('\\')[-1])
+                path_string = os.path.join(self.path_to_save, self.image_path.split('/')[-1])
                 cv2.imwrite(path_string, self.result[0])
                 plt.show()
             elif save:
-                #tam_print('PATH TO SAVE : ', self.path_to_save, 'IMAGE PATH : ', self.image_path)
+                ##tam_print('PATH TO SAVE : ', self.path_to_save, 'IMAGE PATH : ', self.image_path)
                 if self.path_to_save is None:
                     raise Exception('Please create Trajectory instance with path_to_save')
-                path_string = os.path.join(self.path_to_save, self.image_path.split('\\')[-1])
+                path_string = os.path.join(self.path_to_save, self.image_path.split('/')[-1])
                 print('path string : ',path_string)
                 misc.imsave(path_string,self.result[0])
             elif show:
@@ -135,42 +135,49 @@ def merge_flat(image_path,result_path):
         img = Image.open(os.path.join(result_path, 'MasterBias800_03_09_2013.tif'))
         arr_flat = np.array(img.getdata(), np.uint8).reshape(img.size[1], img.size[0])
         return np.tile(arr_flat,(3,1,1)).reshape(2868,4320,3)
-    tam_print('merging flats')
+    #tam_print('merging flats')
     L = []
     for filename in os.listdir(image_path):
         if not '.NEF' in filename: continue
         raw_filename = filename.split('.')[0]
-        tam_print(raw_filename)
+        #tam_print(raw_filename)
         raw = rawpy.imread(os.path.join(image_path, filename))
         rgb = raw.postprocess(user_black = 0)
         L.append(rgb)
     mean_flat = np.mean(L,axis=0)
-    tam_print(mean_flat.shape)
-    tam_print('flat merging process finished')
+    #tam_print(mean_flat.shape)
+    #tam_print('flat merging process finished')
     img_flat = Image.fromarray(mean_flat.astype(np.uint8))
     img_flat.save(os.path.join(result_path, 'flat_result.JPEG'),'JPEG')
     return mean_flat
 
 if __name__ == '__main__':
-    folder = '../images/astro_data/Lights'
-    folder_to_rgb = '../images/astro_rgb'
-    folder_to_save = '../images/astro_img_blurred'
-    folder_flat = '../images/astro_data/Flats'
-    folder_flat_result = '../images/astro_data/Flat_results'
+    folder = '../images/Lights'
+    folder_to_rgb = '../images/test/astro_rgb'
+    folder_to_save = '../images/test/astro_img_blurred'
+    #folder_flat = '../images/astro_data/Flats'
+    #folder_flat_result = '../images/astro_data/Flat_results'
     params = [0.01, 0.009, 0.008, 0.007, 0.005, 0.003]
     num_per_img = 10 # TODO : Should be 10
-    arr_flat = merge_flat(folder_flat, folder_flat_result)
+    #arr_flat = merge_flat(folder_flat, folder_flat_result)
     #NEF to PIL image
-    if True:
-    #if len(os.listdir(folder_to_rgb)) == 0:
+    #if True:
+    if len(os.listdir(folder_to_rgb)) == 0:
 
         sq_size = 2868
         black_thrs = [256,220,230]
         #thrs_mtx = np.repeat(black_thrs,2868*4320).reshape(2868,4320,3)
+        debug_cnt = 0
+        debug_tot = len(os.listdir(folder))
+        test_img_num = 30
         for filename in os.listdir(folder):
+            print(filename)
+            print('Image cropping {}/{}'.format(debug_cnt,debug_tot))
+            debug_cnt += 1
+            if debug_cnt > test_img_num: break
             if not '.NEF' in filename: continue
             raw_filename = filename.split('.')[0]
-            tam_print(raw_filename)
+            #tam_print(filename)
             raw = rawpy.imread(os.path.join(folder, filename))
             rgb = raw.postprocess(user_black = 0)
             print(rgb.dtype)
@@ -203,7 +210,7 @@ if __name__ == '__main__':
                 k1 = randint(0,spx)
                 k2 = randint(0,spx)
                 img_cropped = img.crop((spx+k1,spx+k2,epx+k1,epx+k2))
-                for j in range(4): #TODO : Should be 4
+                for j in range(1): #TODO : Should be 4
                     img_rot = img_cropped
                     if j == 1:
                         img_rot = img_cropped.transpose(Image.ROTATE_90)
@@ -211,16 +218,16 @@ if __name__ == '__main__':
                         img_rot = img_cropped.transpose(Image.ROTATE_180)
                     elif j == 3:
                         img_rot = img_cropped.transpose(Image.ROTATE_270)
-                    for k in range(2): #TODO : Should be 2
+                    for k in range(1): #TODO : Should be 2
                         if k > 0:
                             img_rot = img_rot.transpose(Image.FLIP_TOP_BOTTOM)
                         save_filename = raw_filename + '_' + str(i) + str(j) + str(k)
                         img_rot.save(os.path.join(folder_to_rgb, save_filename)+'.JPEG','JPEG')
-        tam_print('TIFF conversion finished')
+            #tam_print('TIFF conversion finished')
     else:
-        tam_print('TIFF conversion was already finished')
+        print('TIFF conversion was already finished')
     for path in os.listdir(folder_to_rgb):
-        tam_print(path)
+        #tam_print(path)
         if not '.JPEG' in path: continue
         trajectory = Trajectory(canvas=64, max_len=60, expl=np.random.choice(params)).fit()
         psf = PSF(canvas=64, trajectory=trajectory).fit()

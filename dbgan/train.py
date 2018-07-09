@@ -17,7 +17,7 @@ def save_all_weights(d, g, epoch_number, current_loss):
 	save_dir = os.path.join(BASE_DIR, '{}{}'.format(now.month, now.day))
 	if not os.path.exists(save_dir):
 		os.makedirs(save_dir)
-	g.save_weights(os.path.join(save_dir, 'generator_{}_{}.h5'.format(epoch_number, current_loss)), True)
+	g.save_weights(os.path.join(save_dir, 'generator_{}.h5'.format(epoch_number)), True)
 	d.save_weights(os.path.join(save_dir, 'discriminator_{}.h5'.format(epoch_number)), True)
 
 
@@ -85,9 +85,9 @@ def train_multiple_outputs(n_images, batch_size, epoch_num, critic_updates=5, do
 
 
 @click.command()
-@click.option('--n_images', default=-1, help='Number of images to load for training')
-@click.option('--batch_size', default=16, help='Size of batch')
-@click.option('--epoch_num', default=4, help='Number of epochs for training')
+@click.option('--n_images', default=1024, help='Number of images to load for training')
+@click.option('--batch_size', default=64, help='Size of batch')
+@click.option('--epoch_num', default=12, help='Number of epochs for training')
 @click.option('--critic_updates', default=5, help='Number of discriminator training')
 @click.option('--dodebug',default=False, help='activate dodebug print functions')
 
