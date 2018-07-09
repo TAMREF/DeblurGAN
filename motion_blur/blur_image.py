@@ -19,7 +19,16 @@ import rawpy
 from PIL import Image
 
 DEBUG = False
-GRAYSCALE_TRS = 1.5
+GRAYSCALE_TRS = 1.000001
+DO_CONTRAST = True
+CUTOUT = False
+TEST = False
+
+#contrast parameters
+phi = 1
+theta = 1
+maxI = 255
+
 #tam_print = print if DEBUG else None
 
 class BlurImage(object):
@@ -153,8 +162,8 @@ def merge_flat(image_path,result_path):
 
 if __name__ == '__main__':
     folder = '../images/Lights'
-    folder_to_rgb = '../images/test/astro_rgb'
-    folder_to_save = '../images/test/astro_img_blurred'
+    folder_to_rgb = '../images/test/astro_rgb' if TEST else '../images/astro_rgb'
+    folder_to_save = '../images/test/astro_img_blurred' if TEST else '../images/astro_img_blurred'
     #folder_flat = '../images/astro_data/Flats'
     #folder_flat_result = '../images/astro_data/Flat_results'
     params = [0.01, 0.009, 0.008, 0.007, 0.005, 0.003]
@@ -165,7 +174,7 @@ if __name__ == '__main__':
     if len(os.listdir(folder_to_rgb)) == 0:
 
         sq_size = 2868
-        black_thrs = [256,220,230]
+        black_thrs = [256,240,220] #256,240,220 for intentionally-cutout images
         #thrs_mtx = np.repeat(black_thrs,2868*4320).reshape(2868,4320,3)
         debug_cnt = 0
         debug_tot = len(os.listdir(folder))
@@ -188,11 +197,11 @@ if __name__ == '__main__':
             rgb_calib = rgb
             #rgb_calib = np.maximum(rgb,black_thrs)
             #thrs_mtx = np.repeat(black_thrs, rgb_calib.size // 3).reshape(rgb_calib.shape)
-
-            for i in range(3):
-                tmp = rgb_calib[:,:,i]
-                tmp[tmp < black_thrs[i]] = 0
-                rgb_calib[:,:,i] = tmp
+            if CUTOUT:
+                for i in range(3):
+                    tmp = rgb_calib[:,:,i]
+                    tmp[tmp < black_thrs[i]] = 0
+                    rgb_calib[:,:,i] = tmp
 
             if GRAYSCALE_TRS > 1:
                 rgb_normalized = np.mean(rgb_calib,axis=2) * GRAYSCALE_TRS
@@ -201,7 +210,8 @@ if __name__ == '__main__':
                 print(rgb_calib.shape)
             #rgb_calib = rgb_calib - thrs_mtx
             #rgb_calib = cv2.normalize(rgb_calib, rgb_calib, alpha=0, beta=1, norm_type=cv2.NORM_MINMAX, dtype=cv2.CV_32F)
-
+            if DO_CONTRAST:
+                rgb_calib = (maxI / phi) * ((rgb_calib / (maxI / theta)) ** 2)
             img = Image.fromarray(rgb_calib.astype(np.uint8))  # Pillow image
             cut_size = min(sq_size, img.size[0], img.size[1])
             spx = cut_size // 3
