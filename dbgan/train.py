@@ -14,7 +14,7 @@ BASE_DIR = 'weights/'
 
 def save_all_weights(d, g, epoch_number, current_loss):
 	now = datetime.datetime.now()
-	save_dir = os.path.join(BASE_DIR, '{}{}'.format(now.month, now.day))
+	save_dir = os.path.join(BASE_DIR, 'gray_contrast')
 	if not os.path.exists(save_dir):
 		os.makedirs(save_dir)
 	g.save_weights(os.path.join(save_dir, 'generator_{}.h5'.format(epoch_number)), True)

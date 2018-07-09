@@ -12,6 +12,7 @@ def test(batch_size,now,gen_num):
     data = load_images('../images/test', batch_size)
     y_test, x_test = data['B'], data['A']
     g = generator_model()
+    print('./weights/{}/generator_{}.h5'.format(now,gen_num))
     g.load_weights('./weights/{}/generator_{}.h5'.format(now,gen_num))
     generated_images = g.predict(x=x_test, batch_size=batch_size)
     generated = np.array([deprocess_image(img) for img in generated_images])
@@ -29,8 +30,8 @@ def test(batch_size,now,gen_num):
 
 
 @click.command()
-@click.option('--batch_size', default=16, help='Number of images to process')
-@click.option('--now', default=79, help='Month,Date for training')
+@click.option('--batch_size', default=30, help='Number of images to process')
+@click.option('--now', default='79', help='Month,Date for training')
 @click.option('--gen_num',default=0, help='epoch num of desired data')
 def test_command(batch_size,now,gen_num):
     return test(batch_size,now,gen_num)
