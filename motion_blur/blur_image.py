@@ -19,10 +19,10 @@ import rawpy
 from PIL import Image
 
 DEBUG = False
-GRAYSCALE_TRS = 1.000001
-DO_CONTRAST = True
-CUTOUT = False
-TEST = True
+GRAYSCALE_TRS = 1.5
+DO_CONTRAST = False
+CUTOUT = True
+TEST = False
 
 #contrast parameters
 phi = 1
@@ -162,10 +162,14 @@ def merge_flat(image_path,result_path):
 
 if __name__ == '__main__':
     folder = '../images/Lights'
-    folder_to_rgb = '../images/test/astro_rgb' if TEST else '../images/astro_rgb'
-    folder_to_save = '../images/test/astro_img_blurred' if TEST else '../images/astro_img_blurred'
+    folder_to_rgb = '../images/test/trainCB' if TEST else '../images/trainCB'
+    folder_to_save = '../images/test/trainCA' if TEST else '../images/trainCA'
     #folder_flat = '../images/astro_data/Flats'
     #folder_flat_result = '../images/astro_data/Flat_results'
+    if not os.path.exists(folder_to_rgb):
+        os.makedirs(folder_to_rgb)
+    if not os.path.exists(folder_to_save):
+        os.makedirs(folder_to_save)
     params = [0.01, 0.009, 0.008, 0.007, 0.005, 0.003]
     num_per_img = 2 # TODO : Should be 10
     #arr_flat = merge_flat(folder_flat, folder_flat_result)

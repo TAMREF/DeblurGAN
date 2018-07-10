@@ -1,0 +1,229 @@
+------------ Options -------------
+batchSize: 1
+beta1: 0.5
+checkpoints_dir: ./checkpoints
+continue_train: False
+dataroot: ./images
+dataset_mode: unaligned
+display_freq: 100
+display_id: 1
+display_port: 8097
+display_single_pane_ncols: 0
+display_winsize: 256
+epoch_count: 1
+fineSize: 256
+gan_type: wgan-gp
+gpu_ids: [0]
+identity: 0.0
+input_nc: 3
+isTrain: True
+lambda_A: 100.0
+lambda_B: 10.0
+learn_residual: True
+loadSizeX: 640
+loadSizeY: 360
+lr: 0.0001
+max_dataset_size: inf
+model: content_gan
+nThreads: 2
+n_layers_D: 3
+name: experiment_name
+ndf: 64
+ngf: 64
+niter: 10
+niter_decay: 10
+no_dropout: False
+no_flip: False
+no_html: False
+norm: instance
+output_nc: 3
+phase: train
+pool_size: 50
+print_freq: 100
+resize_or_crop: crop
+save_epoch_freq: 5
+save_latest_freq: 5000
+serial_batches: False
+which_direction: AtoB
+which_epoch: latest
+which_model_netD: basic
+which_model_netG: resnet_9blocks
+-------------- End ----------------
+CustomDatasetDataLoader
+dataset [UnalignedDataset] was created
+---------- Networks initialized -------------
+ResnetGenerator(
+  (model): Sequential(
+    (0): ReflectionPad2d((3, 3, 3, 3))
+    (1): Conv2d(3, 64, kernel_size=(7, 7), stride=(1, 1))
+    (2): InstanceNorm2d(64, eps=1e-05, momentum=0.1, affine=False, track_running_stats=False)
+    (3): ReLU(inplace)
+    (4): Conv2d(64, 128, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1))
+    (5): InstanceNorm2d(128, eps=1e-05, momentum=0.1, affine=False, track_running_stats=False)
+    (6): ReLU(inplace)
+    (7): Conv2d(128, 256, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1))
+    (8): InstanceNorm2d(256, eps=1e-05, momentum=0.1, affine=False, track_running_stats=False)
+    (9): ReLU(inplace)
+    (10): ResnetBlock(
+      (conv_block): Sequential(
+        (0): ReflectionPad2d((1, 1, 1, 1))
+        (1): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1))
+        (2): InstanceNorm2d(256, eps=1e-05, momentum=0.1, affine=False, track_running_stats=False)
+        (3): ReLU(inplace)
+        (4): Dropout(p=0.5)
+        (5): ReflectionPad2d((1, 1, 1, 1))
+        (6): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1))
+        (7): InstanceNorm2d(256, eps=1e-05, momentum=0.1, affine=False, track_running_stats=False)
+      )
+    )
+    (11): ResnetBlock(
+      (conv_block): Sequential(
+        (0): ReflectionPad2d((1, 1, 1, 1))
+        (1): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1))
+        (2): InstanceNorm2d(256, eps=1e-05, momentum=0.1, affine=False, track_running_stats=False)
+        (3): ReLU(inplace)
+        (4): Dropout(p=0.5)
+        (5): ReflectionPad2d((1, 1, 1, 1))
+        (6): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1))
+        (7): InstanceNorm2d(256, eps=1e-05, momentum=0.1, affine=False, track_running_stats=False)
+      )
+    )
+    (12): ResnetBlock(
+      (conv_block): Sequential(
+        (0): ReflectionPad2d((1, 1, 1, 1))
+        (1): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1))
+        (2): InstanceNorm2d(256, eps=1e-05, momentum=0.1, affine=False, track_running_stats=False)
+        (3): ReLU(inplace)
+        (4): Dropout(p=0.5)
+        (5): ReflectionPad2d((1, 1, 1, 1))
+        (6): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1))
+        (7): InstanceNorm2d(256, eps=1e-05, momentum=0.1, affine=False, track_running_stats=False)
+      )
+    )
+    (13): ResnetBlock(
+      (conv_block): Sequential(
+        (0): ReflectionPad2d((1, 1, 1, 1))
+        (1): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1))
+        (2): InstanceNorm2d(256, eps=1e-05, momentum=0.1, affine=False, track_running_stats=False)
+        (3): ReLU(inplace)
+        (4): Dropout(p=0.5)
+        (5): ReflectionPad2d((1, 1, 1, 1))
+        (6): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1))
+        (7): InstanceNorm2d(256, eps=1e-05, momentum=0.1, affine=False, track_running_stats=False)
+      )
+    )
+    (14): ResnetBlock(
+      (conv_block): Sequential(
+        (0): ReflectionPad2d((1, 1, 1, 1))
+        (1): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1))
+        (2): InstanceNorm2d(256, eps=1e-05, momentum=0.1, affine=False, track_running_stats=False)
+        (3): ReLU(inplace)
+        (4): Dropout(p=0.5)
+        (5): ReflectionPad2d((1, 1, 1, 1))
+        (6): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1))
+        (7): InstanceNorm2d(256, eps=1e-05, momentum=0.1, affine=False, track_running_stats=False)
+      )
+    )
+    (15): ResnetBlock(
+      (conv_block): Sequential(
+        (0): ReflectionPad2d((1, 1, 1, 1))
+        (1): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1))
+        (2): InstanceNorm2d(256, eps=1e-05, momentum=0.1, affine=False, track_running_stats=False)
+        (3): ReLU(inplace)
+        (4): Dropout(p=0.5)
+        (5): ReflectionPad2d((1, 1, 1, 1))
+        (6): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1))
+        (7): InstanceNorm2d(256, eps=1e-05, momentum=0.1, affine=False, track_running_stats=False)
+      )
+    )
+    (16): ResnetBlock(
+      (conv_block): Sequential(
+        (0): ReflectionPad2d((1, 1, 1, 1))
+        (1): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1))
+        (2): InstanceNorm2d(256, eps=1e-05, momentum=0.1, affine=False, track_running_stats=False)
+        (3): ReLU(inplace)
+        (4): Dropout(p=0.5)
+        (5): ReflectionPad2d((1, 1, 1, 1))
+        (6): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1))
+        (7): InstanceNorm2d(256, eps=1e-05, momentum=0.1, affine=False, track_running_stats=False)
+      )
+    )
+    (17): ResnetBlock(
+      (conv_block): Sequential(
+        (0): ReflectionPad2d((1, 1, 1, 1))
+        (1): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1))
+        (2): InstanceNorm2d(256, eps=1e-05, momentum=0.1, affine=False, track_running_stats=False)
+        (3): ReLU(inplace)
+        (4): Dropout(p=0.5)
+        (5): ReflectionPad2d((1, 1, 1, 1))
+        (6): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1))
+        (7): InstanceNorm2d(256, eps=1e-05, momentum=0.1, affine=False, track_running_stats=False)
+      )
+    )
+    (18): ResnetBlock(
+      (conv_block): Sequential(
+        (0): ReflectionPad2d((1, 1, 1, 1))
+        (1): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1))
+        (2): InstanceNorm2d(256, eps=1e-05, momentum=0.1, affine=False, track_running_stats=False)
+        (3): ReLU(inplace)
+        (4): Dropout(p=0.5)
+        (5): ReflectionPad2d((1, 1, 1, 1))
+        (6): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1))
+        (7): InstanceNorm2d(256, eps=1e-05, momentum=0.1, affine=False, track_running_stats=False)
+      )
+    )
+    (19): ConvTranspose2d(256, 128, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), output_padding=(1, 1))
+    (20): InstanceNorm2d(128, eps=1e-05, momentum=0.1, affine=False, track_running_stats=False)
+    (21): ReLU(inplace)
+    (22): ConvTranspose2d(128, 64, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), output_padding=(1, 1))
+    (23): InstanceNorm2d(64, eps=1e-05, momentum=0.1, affine=False, track_running_stats=False)
+    (24): ReLU(inplace)
+    (25): ReflectionPad2d((3, 3, 3, 3))
+    (26): Conv2d(64, 3, kernel_size=(7, 7), stride=(1, 1))
+    (27): Tanh()
+  )
+)
+Total number of parameters: 11378179
+NLayerDiscriminator(
+  (model): Sequential(
+    (0): Conv2d(3, 64, kernel_size=(4, 4), stride=(2, 2), padding=(2, 2))
+    (1): LeakyReLU(negative_slope=0.2, inplace)
+    (2): Conv2d(64, 128, kernel_size=(4, 4), stride=(2, 2), padding=(2, 2))
+    (3): InstanceNorm2d(128, eps=1e-05, momentum=0.1, affine=False, track_running_stats=False)
+    (4): LeakyReLU(negative_slope=0.2, inplace)
+    (5): Conv2d(128, 256, kernel_size=(4, 4), stride=(2, 2), padding=(2, 2))
+    (6): InstanceNorm2d(256, eps=1e-05, momentum=0.1, affine=False, track_running_stats=False)
+    (7): LeakyReLU(negative_slope=0.2, inplace)
+    (8): Conv2d(256, 512, kernel_size=(4, 4), stride=(1, 1), padding=(2, 2))
+    (9): InstanceNorm2d(512, eps=1e-05, momentum=0.1, affine=False, track_running_stats=False)
+    (10): LeakyReLU(negative_slope=0.2, inplace)
+    (11): Conv2d(512, 1, kernel_size=(4, 4), stride=(1, 1), padding=(2, 2))
+  )
+)
+Total number of parameters: 2764737
+-----------------------------------------------
+model [ConditionalGANModel] was created
+Exception in user code:
+------------------------------------------------------------
+create web directory ./checkpoints/experiment_name/web...
+#training images = 1200
+PSNR on Train = 13.830031
+Exception in user code:
+------------------------------------------------------------
+Exception in user code:
+------------------------------------------------------------
+Exception in user code:
+------------------------------------------------------------
+(epoch: 1, iters: 100, time: 0.487) G_GAN: 7.133 G_L1: 958.465 D_real+fake: -27.126 
+Exception in user code:
+------------------------------------------------------------
+PSNR on Train = 14.316883
+Exception in user code:
+------------------------------------------------------------
+Exception in user code:
+------------------------------------------------------------
+Exception in user code:
+------------------------------------------------------------
+(epoch: 1, iters: 200, time: 0.449) G_GAN: -24.225 G_L1: 853.913 D_real+fake: -30.684 
+Exception in user code:
+------------------------------------------------------------

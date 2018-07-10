@@ -1,3 +1,9 @@
+import os
+os.environ['CUDA_VISIBLE_DEVICES']='1'
+import sys
+#sys.tracebacklimit=0
+#sys.stdout = open('log.txt','w')
+sys.stderr = open('error.txt','w')
 import time
 from options.train_options import TrainOptions
 from data.data_loader import CreateDataLoader

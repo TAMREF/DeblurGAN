@@ -1,0 +1,1 @@
+python3 test.py --dataroot './images/test' --learn_residual --resize_or_crop scale_width  --fineSize 256 --dataset_mode 'unaligned' --phase 'test' --checkpoints_dir './checkpoints_CC' --results_dir './resultCC' --gpu_ids 2

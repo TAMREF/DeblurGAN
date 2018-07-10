@@ -32,7 +32,7 @@ def generator_model():
 	x = BatchNormalization()(x)
 	x = Activation('relu')(x)
 
-	n_downsampling = 2
+	n_downsampling = 4
 	for i in range(n_downsampling):
 		mult = 2**i
 		x = Conv2D(filters=ngf*mult*2, kernel_size=(3, 3), strides=2, padding='same')(x)

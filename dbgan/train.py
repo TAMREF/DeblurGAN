@@ -11,10 +11,11 @@ from model import generator_model, discriminator_model, generator_containing_dis
 from keras.optimizers import Adam
 
 BASE_DIR = 'weights/'
+weight_dir = 'gray_ds4'
 
 def save_all_weights(d, g, epoch_number, current_loss):
     now = datetime.datetime.now()
-    save_dir = os.path.join(BASE_DIR, 'gray_contrast')
+    save_dir = os.path.join(BASE_DIR, weight_dir)
     if not os.path.exists(save_dir):
     	os.makedirs(save_dir)
     g.save_weights(os.path.join(save_dir, 'generator_{}.h5'.format(epoch_number)), True)
@@ -24,12 +25,15 @@ def save_all_weights(d, g, epoch_number, current_loss):
 def train_multiple_outputs(n_images, batch_size, epoch_num, critic_updates=5, dodebug=False):
     data = load_images('../images', n_images)
     y_train, x_train = data['B'], data['A']
-    weight_dir = 'gray_contrast'
-    epoch_already = 7
+    save_dir = os.path.join(BASE_DIR,weight_dir)
+    if not os.path.exists(save_dir):
+        os.makedirs(save_dir)
+    epoch_already = len(os.listdir(save_dir)) // 2
     g = generator_model()
     d = discriminator_model()
-    g.load_weights('./{}/{}/generator_{}.h5'.format(BASE_DIR,weight_dir, epoch_already))
-    d.load_weights('./{}/{}/discriminator_{}.h5'.format(BASE_DIR,weight_dir, epoch_already))
+    if epoch_already > 0:
+        g.load_weights('./{}/{}/generator_{}.h5'.format(BASE_DIR,weight_dir, epoch_already-1))
+        d.load_weights('./{}/{}/discriminator_{}.h5'.format(BASE_DIR,weight_dir, epoch_already-1))
     d_on_g = generator_containing_discriminator_multiple_outputs(g, d)
 
     d_opt = Adam(lr=1E-4, beta_1=0.9, beta_2=0.999, epsilon=1e-08)
@@ -45,7 +49,7 @@ def train_multiple_outputs(n_images, batch_size, epoch_num, critic_updates=5, do
 
     output_true_batch, output_false_batch = np.ones((batch_size, 1)), np.zeros((batch_size, 1))
     for epoch in range(epoch_already,epoch_num+epoch_already):
-    	print('epoch: {}/{}'.format(epoch, epoch_num))
+    	print('epoch: {}/{}'.format(epoch, epoch_num+epoch_already))
     	print('batches: {}'.format(x_train.shape[0] / batch_size))
 
     	permutated_indexes = np.random.permutation(x_train.shape[0])
