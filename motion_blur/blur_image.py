@@ -18,6 +18,7 @@ import sys
 import rawpy
 from PIL import Image
 
+<<<<<<< HEAD
 DEBUG = False
 GRAYSCALE_TRS = 1.000001
 DO_CONTRAST = True
@@ -30,6 +31,11 @@ theta = 1
 maxI = 255
 
 #tam_print = print if DEBUG else None
+=======
+DEBUG = True
+GRAYSCALE_TRS = False
+tam_print = print if DEBUG else None
+>>>>>>> parent of 67bd75a... merged with deblur-gan project
 
 class BlurImage(object):
 
@@ -167,8 +173,13 @@ if __name__ == '__main__':
     #folder_flat = '../images/astro_data/Flats'
     #folder_flat_result = '../images/astro_data/Flat_results'
     params = [0.01, 0.009, 0.008, 0.007, 0.005, 0.003]
+<<<<<<< HEAD
     num_per_img = 2 # TODO : Should be 10
     #arr_flat = merge_flat(folder_flat, folder_flat_result)
+=======
+    num_per_img = 1 #TODO : Should be 10
+    arr_flat = merge_flat(folder_flat, folder_flat_result)
+>>>>>>> parent of 67bd75a... merged with deblur-gan project
     #NEF to PIL image
     #if True:
     if len(os.listdir(folder_to_rgb)) == 0:
@@ -203,8 +214,8 @@ if __name__ == '__main__':
                     tmp[tmp < black_thrs[i]] = 0
                     rgb_calib[:,:,i] = tmp
 
-            if GRAYSCALE_TRS > 1:
-                rgb_normalized = np.mean(rgb_calib,axis=2) * GRAYSCALE_TRS
+            if GRAYSCALE_TRS:
+                rgb_normalized = np.mean(rgb_calib,axis=2)
                 for i in range(3):
                     rgb_calib[:,:,i] = rgb_normalized
                 print(rgb_calib.shape)
@@ -220,7 +231,7 @@ if __name__ == '__main__':
                 k1 = randint(0,spx)
                 k2 = randint(0,spx)
                 img_cropped = img.crop((spx+k1,spx+k2,epx+k1,epx+k2))
-                for j in range(4): #TODO : Should be 4
+                for j in range(1): #TODO : Should be 4
                     img_rot = img_cropped
                     if j == 1:
                         img_rot = img_cropped.transpose(Image.ROTATE_90)
@@ -228,7 +239,7 @@ if __name__ == '__main__':
                         img_rot = img_cropped.transpose(Image.ROTATE_180)
                     elif j == 3:
                         img_rot = img_cropped.transpose(Image.ROTATE_270)
-                    for k in range(2): #TODO : Should be 2
+                    for k in range(1): #TODO : Should be 2
                         if k > 0:
                             img_rot = img_rot.transpose(Image.FLIP_TOP_BOTTOM)
                         save_filename = raw_filename + '_' + str(i) + str(j) + str(k)
