@@ -1,20 +1,3 @@
-================ Training Loss (Tue Jul 10 16:19:11 2018) ================
-(epoch: 1, iters: 100, time: 0.488) G_GAN: 31.931 G_L1: 938.458 D_real+fake: -36.184 
-(epoch: 1, iters: 200, time: 0.486) G_GAN: 80.662 G_L1: 628.492 D_real+fake: -90.262 
-(epoch: 1, iters: 300, time: 0.503) G_GAN: 90.527 G_L1: 916.869 D_real+fake: -78.157 
-(epoch: 1, iters: 400, time: 0.498) G_GAN: 49.647 G_L1: 780.925 D_real+fake: -23.036 
-(epoch: 1, iters: 500, time: 0.496) G_GAN: 31.745 G_L1: 742.615 D_real+fake: -29.369 
-(epoch: 1, iters: 600, time: 0.494) G_GAN: 25.077 G_L1: 794.274 D_real+fake: -2.236 
-(epoch: 1, iters: 700, time: 0.498) G_GAN: 23.522 G_L1: 805.237 D_real+fake: -29.583 
-(epoch: 1, iters: 800, time: 0.490) G_GAN: 19.444 G_L1: 779.638 D_real+fake: -30.545 
-(epoch: 1, iters: 900, time: 0.519) G_GAN: 7.491 G_L1: 388.811 D_real+fake: -13.577 
-(epoch: 1, iters: 1000, time: 0.485) G_GAN: 1.320 G_L1: 585.844 D_real+fake: -16.444 
-(epoch: 1, iters: 1100, time: 0.525) G_GAN: 4.188 G_L1: 697.219 D_real+fake: -19.691 
-(epoch: 1, iters: 1200, time: 0.542) G_GAN: -2.696 G_L1: 335.279 D_real+fake: -13.599 
-(epoch: 2, iters: 100, time: 0.537) G_GAN: -4.191 G_L1: 769.139 D_real+fake: -14.413 
-(epoch: 2, iters: 200, time: 0.494) G_GAN: 1.391 G_L1: 355.429 D_real+fake: -22.526 
-(epoch: 2, iters: 300, time: 0.505) G_GAN: -5.888 G_L1: 311.773 D_real+fake: -11.949 
-(epoch: 2, iters: 400, time: 0.492) G_GAN: -4.012 G_L1: 310.290 D_real+fake: -17.899 
 ================ Training Loss (Tue Jul 10 16:28:25 2018) ================
 (epoch: 1, iters: 100, time: 0.512) G_GAN: 38.326 G_L1: 1015.938 D_real+fake: -44.939 
 (epoch: 1, iters: 200, time: 0.507) G_GAN: 54.827 G_L1: 966.336 D_real+fake: -17.050 
