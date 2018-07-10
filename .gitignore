@@ -1,6 +1,8 @@
 *.pyc
 Traj.png
 PSF.png
+*.JPEG
 *.pth
 *.h5
-*.JPEG
+err.txt
+error.txt

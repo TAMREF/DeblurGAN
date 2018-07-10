@@ -19,10 +19,10 @@ import rawpy
 from PIL import Image
 
 DEBUG = False
-GRAYSCALE_TRS = 1.5
-DO_CONTRAST = False
-CUTOUT = True
-TEST = False
+GRAYSCALE_TRS = 1.00001
+DO_CONTRAST = True
+CUTOUT = False
+TEST = True
 
 #contrast parameters
 phi = 1
@@ -162,8 +162,8 @@ def merge_flat(image_path,result_path):
 
 if __name__ == '__main__':
     folder = '../images/Lights'
-    folder_to_rgb = '../images/test/trainCB' if TEST else '../images/trainCB'
-    folder_to_save = '../images/test/trainCA' if TEST else '../images/trainCA'
+    folder_to_rgb = '../images/test/testGB' if TEST else '../images/trainB'
+    folder_to_save = '../images/test/testGA' if TEST else '../images/trainA'
     #folder_flat = '../images/astro_data/Flats'
     #folder_flat_result = '../images/astro_data/Flat_results'
     if not os.path.exists(folder_to_rgb):
@@ -171,7 +171,7 @@ if __name__ == '__main__':
     if not os.path.exists(folder_to_save):
         os.makedirs(folder_to_save)
     params = [0.01, 0.009, 0.008, 0.007, 0.005, 0.003]
-    num_per_img = 2 # TODO : Should be 10
+    num_per_img = 1 if TEST else 10 # TODO : Should be 10
     #arr_flat = merge_flat(folder_flat, folder_flat_result)
     #NEF to PIL image
     #if True:
@@ -224,7 +224,7 @@ if __name__ == '__main__':
                 k1 = randint(0,spx)
                 k2 = randint(0,spx)
                 img_cropped = img.crop((spx+k1,spx+k2,epx+k1,epx+k2))
-                for j in range(4): #TODO : Should be 4
+                for j in range(1): #TODO : Should be 4
                     img_rot = img_cropped
                     if j == 1:
                         img_rot = img_cropped.transpose(Image.ROTATE_90)
@@ -232,7 +232,7 @@ if __name__ == '__main__':
                         img_rot = img_cropped.transpose(Image.ROTATE_180)
                     elif j == 3:
                         img_rot = img_cropped.transpose(Image.ROTATE_270)
-                    for k in range(2): #TODO : Should be 2
+                    for k in range(1): #TODO : Should be 2
                         if k > 0:
                             img_rot = img_rot.transpose(Image.FLIP_TOP_BOTTOM)
                         save_filename = raw_filename + '_' + str(i) + str(j) + str(k)
