@@ -1,0 +1,5 @@
+*.pyc
+Traj.png
+PSF.png
+*.pth
+*.h5
