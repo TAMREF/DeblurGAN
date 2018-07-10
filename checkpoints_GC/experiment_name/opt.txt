@@ -10,7 +10,7 @@ display_single_pane_ncols: 0
 display_winsize: 256
 fineSize: 256
 gan_type: wgan-gp
-gpu_ids: [2]
+gpu_ids: [1]
 how_many: 5000
 input_nc: 3
 isTrain: False
@@ -29,7 +29,7 @@ no_flip: False
 norm: instance
 ntest: inf
 output_nc: 3
-phase: test
+phase: testG
 resize_or_crop: scale_width
 results_dir: ./resultGC
 serial_batches: False
