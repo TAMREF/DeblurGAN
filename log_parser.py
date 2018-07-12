@@ -1,14 +1,14 @@
 import sys
-sys.stdout=open('output.csv','w')
+sys.stdout=open('output_CC_180712.csv','w')
 import os
 import re
 from string import ascii_lowercase, ascii_uppercase
 
 pattern = ascii_lowercase + ascii_uppercase + '_,+\n'
-path_log = './checkpoints_GC/experiment_name'
+path_log = './checkpoints_CC/experiment_name'
 
 if __name__ == '__main__':
-    print('pattern = ',pattern)
+    #print('pattern = ',pattern)
     filename = os.path.join(path_log,'loss_log.txt')
     print('G_GAN,G_L1,D_loss,\n')
     f = open(filename,'r')
