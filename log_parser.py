@@ -1,11 +1,11 @@
 import sys
-sys.stdout=open('output_CC_180712.csv','w')
+sys.stdout=open('output_CC_E1000.csv','w')
 import os
 import re
 from string import ascii_lowercase, ascii_uppercase
 
 pattern = ascii_lowercase + ascii_uppercase + '_,+\n'
-path_log = './checkpoints_CC/experiment_name'
+path_log = './checkpoints_CC/180713'
 
 if __name__ == '__main__':
     #print('pattern = ',pattern)
