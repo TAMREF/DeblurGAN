@@ -1563,3 +1563,7 @@
 (epoch: 110, iters: 1100, time: 0.530) G_GAN: 5.090 G_L1: 442.353 D_real+fake: -2.827 
 (epoch: 110, iters: 1200, time: 0.542) G_GAN: 5.568 G_L1: 2387.460 D_real+fake: -6.619 
 ================ Training Loss (Thu Jul 12 09:29:39 2018) ================
+================ Training Loss (Thu Jul 12 09:51:37 2018) ================
+================ Training Loss (Thu Jul 12 09:52:26 2018) ================
+(epoch: 1, iters: 100, time: 0.422) G_GAN: 7.194 G_L1: 2202.411 D_real+fake: -0.820 
+================ Training Loss (Wed Jul 18 06:56:21 2018) ================

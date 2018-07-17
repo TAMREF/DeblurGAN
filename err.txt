@@ -28,7 +28,7 @@ Traceback (most recent call last):
     conn = self._new_conn()
   File "/home/sonbrain/.local/lib/python3.6/site-packages/urllib3/connection.py", line 180, in _new_conn
     self, "Failed to establish a new connection: %s" % e)
-urllib3.exceptions.NewConnectionError: <urllib3.connection.HTTPConnection object at 0x7fb81f41efd0>: Failed to establish a new connection: [Errno 111] Connection refused
+urllib3.exceptions.NewConnectionError: <urllib3.connection.HTTPConnection object at 0x7f4bc240d080>: Failed to establish a new connection: [Errno 111] Connection refused
 
 During handling of the above exception, another exception occurred:
 
@@ -39,7 +39,7 @@ Traceback (most recent call last):
     _stacktrace=sys.exc_info()[2])
   File "/home/sonbrain/.local/lib/python3.6/site-packages/urllib3/util/retry.py", line 398, in increment
     raise MaxRetryError(_pool, url, error or ResponseError(cause))
-urllib3.exceptions.MaxRetryError: HTTPConnectionPool(host='localhost', port=8097): Max retries exceeded with url: /env/main (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7fb81f41efd0>: Failed to establish a new connection: [Errno 111] Connection refused',))
+urllib3.exceptions.MaxRetryError: HTTPConnectionPool(host='localhost', port=8097): Max retries exceeded with url: /env/main (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7f4bc240d080>: Failed to establish a new connection: [Errno 111] Connection refused',))
 
 During handling of the above exception, another exception occurred:
 
@@ -56,7 +56,7 @@ Traceback (most recent call last):
     r = adapter.send(request, **kwargs)
   File "/home/sonbrain/.local/lib/python3.6/site-packages/requests/adapters.py", line 513, in send
     raise ConnectionError(e, request=request)
-requests.exceptions.ConnectionError: HTTPConnectionPool(host='localhost', port=8097): Max retries exceeded with url: /env/main (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7fb81f41efd0>: Failed to establish a new connection: [Errno 111] Connection refused',))
+requests.exceptions.ConnectionError: HTTPConnectionPool(host='localhost', port=8097): Max retries exceeded with url: /env/main (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7f4bc240d080>: Failed to establish a new connection: [Errno 111] Connection refused',))
 /home/sonbrain/Desktop/DeblurGAN/models/conditional_gan_model.py:81: UserWarning: volatile was removed and now has no effect. Use `with torch.no_grad():` instead.
   self.real_A = Variable(self.input_A, volatile=True)
 /home/sonbrain/Desktop/DeblurGAN/models/conditional_gan_model.py:83: UserWarning: volatile was removed and now has no effect. Use `with torch.no_grad():` instead.
